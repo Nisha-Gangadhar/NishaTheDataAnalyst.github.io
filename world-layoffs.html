@@ -1,0 +1,289 @@
+```html
+<!doctype html>
+<html>
+  <head>
+    <title>World Layoffs Data Cleaning Using SQL | NishaTheAnalyst</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+      <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+  </head>
+
+  <body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper" class="fade-in">
+      <!-- Header -->
+      <header id="header">
+        <a href="index.html" class="logo">NishaTheAnalyst</a>
+      </header>
+
+      <!-- Navigation -->
+      <nav id="nav">
+        <ul class="links">
+          <li class="active"><a href="index.html">Projects</a></li>
+          <!-- <li><a href="excel.html">Excel</a></li>
+          <li><a href="python.html">Python</a></li>
+          <li><a href="tableau.html">Tableau</a></li>
+          <li><a href="powerbi.html">Power BI</a></li> -->
+        </ul>
+
+        <ul class="icons">
+          <li>
+            <a
+              href="mailto:nishagangadharrao@gmail.com"
+              class="icon solid fa-envelope"
+              ><span class="label">Email</span></a
+            >
+          </li>
+          <li>
+            <a href="tel:+917892277921" class="icon solid fa-phone"
+              ><span class="label">Phone</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main -->
+      <div id="main">
+        <section class="post">
+          <header class="major">
+            <span class="date">SQL Project</span>
+            <h1>World Layoffs Data Cleaning Using SQL</h1>
+            <p>
+              Transforming raw layoff data into a clean, analysis-ready dataset
+              using SQL and MySQL Workbench.
+            </p>
+          </header>
+
+          <span class="image main">
+            <img src="images/sqlmain.png" alt="World Layoffs Project" 
+            />
+          </span>
+
+          <!-- Project Summary -->
+          <div class="box">
+            <h2>Project Summary</h2>
+            <ul>
+              <li><strong>Dataset:</strong> World Layoffs Dataset (Kaggle)</li>
+              <li><strong>Tool:</strong> MySQL Workbench</li>
+              <li>
+                <strong>Skills:</strong> SQL, Data Cleaning, Data Validation
+              </li>
+              <li>
+                <strong>Objective:</strong> Prepare raw data for analysis and
+                reporting
+              </li>
+            </ul>
+          </div>
+
+          <!-- Goals -->
+          <div class="row">
+            <div class="col-6 col-12-small">
+              <h3>Project Goals</h3>
+              <ul>
+                <li>Remove duplicate records</li>
+                <li>Standardize values</li>
+                <li>Handle null values</li>
+                <li>Format dates correctly</li>
+                <li>Prepare data for analysis</li>
+              </ul>
+            </div>
+
+            <div class="col-6 col-12-small">
+              <h3>Tools Used</h3>
+              <ul>
+                <li>MySQL</li>
+                <li>SQL</li>
+                <li>MySQL Workbench</li>
+              </ul>
+            </div>
+          </div>
+
+          <hr />
+
+          <h2>Data Cleaning Workflow</h2>
+
+          <!-- Step 1 -->
+          <div class="box">
+            <h3>Step 1: Import Dataset</h3>
+
+            <p>
+              Imported the CSV dataset into MySQL Workbench and validated the
+              table structure before beginning the cleaning process.
+            </p>
+
+            <span class="image fit">
+              <img src="images/original_data.png" alt="Raw Dataset" />
+            </span>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="box">
+            <h3>Step 2: Create Staging Table</h3>
+
+            <p>
+              Created a staging table to preserve the raw dataset and perform
+              all cleaning operations safely.
+            </p>
+
+            <pre><code>
+CREATE TABLE layoffs_staging
+LIKE layoffs;
+</code></pre>
+
+            <span class="image fit">
+              <img src="images/original_data.png" alt="Staging Table" />
+            </span>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="box">
+            <h3>Step 3: Remove Duplicates</h3>
+
+            <p>
+              Used the ROW_NUMBER() window function to identify duplicate
+              records and remove them.
+            </p>
+
+            <pre><code>
+ROW_NUMBER() OVER(
+PARTITION BY company,
+industry
+)
+</code></pre>
+
+            <span class="image fit">
+              <img src="images/Duplicates.png" alt="Duplicate Records" />
+            </span>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="box">
+            <h3>Step 4: Standardize Data</h3>
+
+            <p>
+              Corrected inconsistencies in company names, industries, and
+              country values.
+            </p>
+
+            <span class="image fit">
+              <img src="images/standardization.png" alt="Standardization" />
+            </span>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="box">
+            <h3>Step 5: Handle Missing Values</h3>
+
+            <p>
+              Filled missing industry values where possible and removed records
+              that could not be used.
+            </p>
+
+            <span class="image fit">
+              <img src="images/null_values.png" alt="Null Values" />
+            </span>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="box">
+            <h3>Step 6: Final Validation</h3>
+
+            <p>
+              Verified the dataset quality and ensured it was ready for
+              exploratory data analysis and visualization.
+            </p>
+
+            <span class="image fit">
+              <img src="images/Final_Dataset.png" alt="Final Dataset" />
+            </span>
+          </div>
+
+          <hr />
+
+          <h2>Key SQL Concepts Used</h2>
+
+          <div class="row">
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Window Functions</h4>
+                <p>Used ROW_NUMBER() to identify duplicate records.</p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>CTEs</h4>
+                <p>Improved readability and maintenance of SQL queries.</p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Data Validation</h4>
+                <p>Verified data accuracy after every transformation.</p>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <h2>Project Outcome</h2>
+
+          <blockquote>
+            Successfully transformed a raw layoffs dataset into a clean,
+            structured, and analysis-ready dataset for reporting, visualization,
+            and business intelligence applications.
+          </blockquote>
+
+          <ul class="actions special">
+            <li>
+              <a href="index.html" class="button"> Back to Portfolio </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <!-- <footer id="footer">
+        <section class="split contact">
+          <section>
+            <h3>Phone</h3>
+            <p><a href="tel:+917892277921">+91 7892277921</a></p>
+          </section>
+
+          <section>
+            <h3>Email</h3>
+            <p>
+              <a href="mailto:nishagangadharrao@gmail.com">
+                nishagangadharrao@gmail.com
+              </a>
+            </p>
+          </section>
+        </section>
+      </footer> -->
+
+      <!-- Copyright -->
+      <div id="copyright">
+        <ul>
+          <li>&copy; NishaTheAnalyst</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
+```

@@ -1,0 +1,366 @@
+```html
+<!doctype html>
+<html>
+  <head>
+    <title>COVID-19 Data Exploration Using SQL | NishaTheAnalyst</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+      <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+  </head>
+
+  <body class="is-preload">
+    <div id="wrapper" class="fade-in">
+      <!-- Header -->
+      <header id="header">
+        <a href="index.html" class="logo">NishaTheAnalyst</a>
+      </header>
+
+      <!-- Navigation -->
+      <nav id="nav">
+        <ul class="links">
+          <li class="active">
+            <a href="index.html">Projects</a>
+          </li>
+        </ul>
+
+        <ul class="icons">
+          <li>
+            <a
+              href="mailto:nishagangadharrao@gmail.com"
+              class="icon solid fa-envelope"
+            >
+              <span class="label">Email</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="tel:+917892277921" class="icon solid fa-phone">
+              <span class="label">Phone</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main -->
+      <div id="main">
+        <section class="post">
+          <!-- Project Header -->
+          <header class="major">
+            <span class="date">SQL Project</span>
+
+            <h1>COVID-19 Data Exploration Using SQL</h1>
+
+            <p>
+              Analyzing global COVID-19 cases, deaths, and vaccination trends
+              using advanced SQL techniques to uncover meaningful insights.
+            </p>
+          </header>
+
+          <!-- Main Banner -->
+          <span class="image main">
+            <img src="images/covid_cover.png" alt="COVID-19 SQL Project" />
+          </span>
+
+          <!-- Project Summary -->
+          <div class="box">
+            <h2>Project Summary</h2>
+
+            <ul>
+              <li>
+                <strong>Dataset:</strong> COVID-19 Deaths & Vaccinations Dataset
+              </li>
+
+              <li>
+                <strong>Tool:</strong> SQL Server Management Studio (SSMS)
+              </li>
+
+              <li>
+                <strong>Skills:</strong> Joins, CTEs, Temp Tables, Window
+                Functions, Aggregate Functions, Views, Data Type Conversion
+              </li>
+
+              <li>
+                <strong>Objective:</strong> Explore global COVID-19 trends,
+                infection rates, death rates, and vaccination progress using
+                SQL.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Goals -->
+          <div class="row">
+            <div class="col-6 col-12-small">
+              <h3>Project Goals</h3>
+
+              <ul>
+                <li>Analyze COVID-19 cases and deaths worldwide</li>
+                <li>Calculate infection and mortality rates</li>
+                <li>Compare country-wise and continent-wise statistics</li>
+                <li>Track vaccination progress over time</li>
+                <li>Create reusable datasets for reporting</li>
+              </ul>
+            </div>
+
+            <div class="col-6 col-12-small">
+              <h3>Tools Used</h3>
+
+              <ul>
+                <li>SQL Server</li>
+                <li>SSMS</li>
+                <li>SQL</li>
+              </ul>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Workflow -->
+          <h2>Data Exploration Workflow</h2>
+
+          <!-- Step 1 -->
+          <div class="box">
+            <h3>Step 1: Initial Data Exploration</h3>
+
+            <p>
+              Loaded COVID-19 deaths and vaccination datasets and performed
+              exploratory analysis to understand the structure and quality of
+              the data.
+            </p>
+
+            <pre><code>
+SELECT *
+FROM CovidDeaths
+WHERE continent IS NOT NULL
+ORDER BY 3,4
+            </code></pre>
+
+            <span class="image fit">
+              <img
+                src="images/continent_notnullcovid.png"
+                alt="COVID Dataset"
+              />
+            </span>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="box">
+            <h3>Step 2: Total Cases vs Total Deaths</h3>
+
+            <p>
+              Calculated death percentages to understand the likelihood of death
+              after contracting COVID-19.
+            </p>
+
+            <pre><code>
+SELECT Location,
+       Date,
+       Total_Cases,
+       Total_Deaths,
+       (Total_Deaths/Total_Cases)*100 AS DeathPercentage
+FROM CovidDeaths
+            </code></pre>
+
+            <span class="image fit">
+              <img src="images/deathvstotalcases.png" alt="Cases vs Deaths" />
+            </span>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="box">
+            <h3>Step 3: Infection Rate Analysis</h3>
+
+            <p>
+              Compared total cases against population to determine the
+              percentage of population infected in each country.
+            </p>
+
+            <pre><code>
+SELECT Location,
+       Population,
+       MAX(total_cases) AS HighestInfectionCount,
+       MAX((total_cases/population))*100
+       AS PercentPopulationInfected
+FROM CovidDeaths
+GROUP BY Location, Population
+ORDER BY PercentPopulationInfected Desc
+            </code></pre>
+
+            <span class="image fit">
+              <img
+                src="images/PercentagePopulationInfected.png"
+                alt="Infection Rate Analysis"
+              />
+            </span>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="box">
+            <h3>Step 4: Death Count Analysis</h3>
+
+            <p>
+              Identified countries and continents with the highest COVID-19
+              death counts.
+            </p>
+
+            <pre><code>
+SELECT Location,
+       MAX(CAST(total_deaths AS INT))
+       AS TotalDeathCount
+FROM CovidDeaths
+WHERE continent IS NOT NULL
+GROUP BY Location
+ORDER BY TotalDeathCount DESC
+            </code></pre>
+
+            <span class="image fit">
+              <img src="images/death_count.png" alt="Death Count Analysis" />
+            </span>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="box">
+            <h3>Step 5: Vaccination Progress Analysis</h3>
+
+            <p>
+              Combined deaths and vaccination datasets using joins and
+              calculated rolling vaccination totals using window functions.
+            </p>
+
+            <pre><code>
+Select dea.continent, dea.location,  dea.population, vac.new_vaccinations
+, SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
+From CovidDeaths dea
+Join CovidVaccinations vac
+	On dea.location = vac.location
+	and dea.date = vac.date
+where dea.continent is not null 
+order by vac.new_vaccinations desc
+            </code></pre>
+
+            <span class="image fit">
+              <img
+                src="images/vaccinationProgress.png"
+                alt="Vaccination Progress"
+              />
+            </span>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="box">
+            <h3>Step 6: Advanced SQL Techniques</h3>
+
+            <p>
+              Used Common Table Expressions (CTEs), Temporary Tables, and Views
+              to simplify calculations and create reusable datasets for future
+              visualization projects.
+            </p>
+
+            <span class="image fit">
+              <img
+                src="images/tempandviewcovid.png"
+                alt="CTE Temp Tables and Views"
+              />
+            </span>
+          </div>
+
+          <hr />
+
+          <!-- SQL Concepts -->
+          <h2>Key SQL Concepts Used</h2>
+
+          <div class="row">
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Joins</h4>
+                <p>
+                  Combined COVID deaths and vaccination datasets for
+                  comprehensive analysis.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Window Functions</h4>
+                <p>Calculated rolling vaccination totals using SUM() OVER().</p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>CTEs</h4>
+                <p>Improved readability and simplified complex queries.</p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Temporary Tables</h4>
+                <p>
+                  Stored intermediate calculations for vaccination analysis.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Views</h4>
+                <p>Created reusable datasets for dashboards and reporting.</p>
+              </div>
+            </div>
+
+            <div class="col-4 col-12-small">
+              <div class="box">
+                <h4>Aggregate Functions</h4>
+                <p>Summarized global cases, deaths, and vaccination metrics.</p>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Outcome -->
+          <h2>Project Outcome</h2>
+
+          <blockquote>
+            Successfully analyzed global COVID-19 data using SQL and generated
+            valuable insights into infection rates, mortality rates, and
+            vaccination progress. This project demonstrated practical
+            application of Joins, CTEs, Temporary Tables, Window Functions,
+            Aggregate Functions, Views, and Data Type Conversion techniques used
+            in real-world data analytics projects.
+          </blockquote>
+
+          <ul class="actions special">
+            <li>
+              <a href="index.html" class="button"> Back to Portfolio </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Copyright -->
+      <div id="copyright">
+        <ul>
+          <li>&copy; NishaTheAnalyst</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
+```

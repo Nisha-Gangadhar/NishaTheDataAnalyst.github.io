@@ -1,0 +1,564 @@
+```html
+<!doctype html>
+<html>
+  <head>
+    <title>Amazon Price Tracker Using Python| NishaTheAnalyst</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+      <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+  </head>
+
+  <body class="is-preload">
+    <div id="wrapper" class="fade-in">
+      <!-- Header -->
+      <header id="header">
+        <a href="index.html" class="logo">NishaTheAnalyst</a>
+      </header>
+
+      <!-- Navigation -->
+      <nav id="nav">
+        <ul class="links">
+          <li class="active">
+            <a href="index.html"> Projects</a>
+          </li>
+        </ul>
+
+        <ul class="icons">
+          <li>
+            <a
+              href="mailto:nishagangadharrao@gmail.com"
+              class="icon solid fa-envelope"
+            >
+              <span class="label">Email</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="tel:+917892277921" class="icon solid fa-phone">
+              <span class="label">Phone</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main -->
+      <div id="main">
+        <section class="post">
+          <!-- Project Header -->
+          <header class="major">
+            <span class="date"> Project</span>
+
+            <h1>Amazon Price Tracker Using Python</h1>
+
+            <p>
+              This project automates the process of tracking product prices on
+              Amazon. Using Python, the script extracts product information such
+              as title and price from an Amazon product page, stores the data in
+              a CSV file, and continuously monitors price changes over time. The
+              project can also send an email notification when the product price
+              falls below a specified threshold.
+            </p>
+          </header>
+
+          <!-- Main Banner -->
+          <span class="image main">
+            <img src="images/amazoncover.jpeg" alt="Amazon Price Tracker Using Python" />
+          </span>
+
+          <!-- Project Summary -->
+          <div class="box">
+            <h2>Project Summary</h2>
+
+            <ul>
+              <li>
+                <strong>Dataset:</strong> Amazon Product Price Data
+              </li>
+
+              <li>
+                <strong>Tool:</strong> Python, Jupyter Notebook
+              </li>
+
+              <li>
+                <strong>Skills:</strong> Web Scraping, BeautifulSoup, Requests, CSV Handling, Pandas, Automation, Email Notifications
+              </li>
+
+              <li>
+                <strong>Objective:</strong> The project demonstrates practical
+                applications of web scraping, data collection, automation, file
+                handling, and email notifications using Python.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Goals -->
+          <div class="row">
+            <div class="col-6 col-12-small">
+              <h3>Project Goals</h3>
+
+              <ul>
+                <li>Extract product details from Amazon using web scraping.</li>
+                <li>Store historical price data in a CSV file.</li>
+                <li>Monitor price fluctuations automatically.</li>
+                <li>
+                  Generate alerts when the product price drops below a target
+                  value.
+                </li>
+                <li>
+                  Gain hands-on experience with Python automation and web
+                  scraping.
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-6 col-12-small">
+              <h2>Technologies Used</h2>
+
+              <ul>
+                <li>Python 3.x</li>
+                <li>BeautifulSoup4</li>
+                <li>Requests</li>
+                <li>Pandas</li>
+                <li>CSV</li>
+                <li>Datetime</li>
+                <li>SMTP Email Automation</li>
+                <li>Jupyter Notebook</li>
+              </ul>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Workflow -->
+          <h2>Project Workflow</h2>
+
+          <!-- Step 1 -->
+          <div class="box">
+            <h3>Step 1: Import Required Libraries</h3>
+            <p>
+              Imported all necessary Python libraries required for web scraping,
+              data processing, automation, and email notifications.
+            </p>
+
+            <pre><code>
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+import csv
+import datetime
+import time
+import smtplib
+  </code></pre>
+
+            <!-- <span class="image fit">
+              <img
+                src="images/import_libraries.png"
+                alt="Import Required Libraries"
+              />
+            </span> -->
+          </div>
+
+          <!-- Step 2 -->
+          <div class="box">
+            <h3>Step 2: Connect to Amazon Product Page</h3>
+
+            <p>
+              Established a connection to the Amazon product page using the
+              Requests library and custom browser headers to retrieve page
+              content.
+            </p>
+
+            <pre><code>
+# Connect to Website and pull in data
+
+URL = https://www.amazon.com/Be-Wild-Free-Market-Scientist/dp/B08471P8DV/ref=sr_1_15?
+crid=NYSZM7ZV8Z66&dib=eyJ2IjoiMSJ9.hRpIkVP05twHHgf3t_BDoiXbtUP6hzM4ykL3XbAgkWL-rlvKCk
+OC1tbAMKUrcVFepBHxcwqjtRYEJ5YMOayX_0NHiCvv_0c_gDztMi8nKLxUuG3iSvVy29ld6tdHPwRALvWajUj
+UwTQgWA77OlzTe1TeagRsQzadFPPtRn4UiyXZGeaQDEmvhYUO6kBemNqyIQ5Jvr2z28Tij1wtyJkYCfHt7Dlh
+dnj_ehxbkxVVS-_dkSMhQT86WEb6jB2ccz41j0Qt5AAtmYngEF64TfllfnPyfa9AR-efSLGRjDNhKsU.h1B_J
+WXTIKIUXhda9G_TQUA2TPmNFnSDCT7hOyt16wI&dib_tag=se&keywords=data%2Banalyst%
+2Btshirt&qid=1782393646&sprefix=data%2Banalyst%2Btshirt%2Caps%2C528&sr=8-15&th=1&psc=1'
+
+headers={
+    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
+    (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
+    'Accept-Encoding':'gzip, deflate, br, zstd',
+    'Accept':'text/html,application/xhtml+xml, application/xml;q=0.9, image/avif, 
+    image/webp, image/apng,*/*;q=0.8, application/signed-exchange;v=b3;q=0.7'    
+} 
+
+page = requests.get(URL, headers=headers)
+
+
+  </code></pre>
+
+            <!-- <span class="image fit">
+              <img
+                src="images/amazon_product_page.png"
+                alt="Amazon Product Page"
+              />
+            </span> -->
+          </div>
+
+          <!-- Step 3 -->
+          <div class="box">
+             <h3>Step 3: Parse HTML Content</h3>
+
+            <p>
+              Parsed the HTML source code using BeautifulSoup to make the webpage
+              elements searchable and easier to extract.
+            </p>
+
+            <pre><code>
+          soup = BeautifulSoup(page.content, "html.parser")
+            </code></pre>
+
+            <span class="image fit">
+              <img
+                src="images/html_parsing.png"
+                alt="HTML Parsing"
+              />
+
+          
+          </div>
+
+          <!-- Step 4 -->
+          <div class="box">
+  <h3>Step 4: Extract Product Title and Price</h3>
+
+  <p>
+    Extracted the product title and current product price from the Amazon
+    webpage using HTML element selectors and removed unnecessary symbols and whitespace from the extracted values
+    and prepared the data for storage.
+  </p>
+
+  <pre><code>
+title = soup.find(id="productTitle").get_text().strip()
+
+price = soup.find(id="apex-pricetopay-accessibility-label").text.strip()
+price.replace("INR","")
+
+  </code></pre>
+
+  <span class="image fit">
+    <img
+      src="images/producttitle_price.png"
+      alt="Product Title and Price"
+    />
+  </span>
+</div>
+
+          <!-- Step 5 -->
+          <!-- <div class="box">
+  <h3>Step 5: Clean and Prepare Data</h3>
+
+  <p>
+    Removed unnecessary symbols and whitespace from the extracted values
+    and prepared the data for storage.
+  </p>
+
+  <pre><code>
+price = price.replace("$","")
+price = price.strip()
+
+title = title.strip()
+  </code></pre>
+
+  <span class="image fit">
+    <img
+      src="images/data_cleaning.png"
+      alt="Data Cleaning"
+    />
+  </span>
+</div> -->
+
+          <!-- Step 6 -->
+         <div class="box">
+  <h3>Step 5: Create Timestamp</h3>
+
+  <p>
+    Generated a timestamp to track when each product price was collected,
+    allowing historical price analysis.
+  </p>
+
+  <pre><code>
+today = datetime.date.today()
+  </code></pre>
+
+  <!-- <span class="image fit">
+    <img
+      src="images/date_timestamp.png"
+      alt="Timestamp Creation"
+    />
+  </span> -->
+</div>
+
+<!-- Step 7 -->
+<div class="box">
+  <h3>Step 6: Store Data in CSV File</h3>
+
+  <p>
+Created a structured CSV dataset to store product title, price, 
+and collection date. The script continuously appended new records, 
+allowing historical price tracking, trend analysis, and automated price monitoring.
+</p>
+
+  <pre><code>
+def check_price():
+        url='https://www.amazon.com/Be-Wild-Free-Market-Scientist/dp/B08471P8DV/ref=sr_1_15?crid=NYSZM7ZV8Z66&dib=eyJ2IjoiMSJ9.hRpIkVP05twHHgf3t_BDoiXbtUP6hzM4ykL3XbAgkWL-rlvKCkOC1tbAMKUrcVFepBHxcwqjtRYEJ5YMOayX_0NHiCvv_0c_gDztMi8nKLxUuG3iSvVy29ld6tdHPwRALvWajUjUwTQgWA77OlzTe1TeagRsQzadFPPtRn4UiyXZGeaQDEmvhYUO6kBemNqyIQ5Jvr2z28Tij1wtyJkYCfHt7Dlhdnj_ehxbkxVVS-_dkSMhQT86WEb6jB2ccz41j0Qt5AAtmYngEF64TfllfnPyfa9AR-efSLGRjDNhKsU.h1B_JWXTIKIUXhda9G_TQUA2TPmNFnSDCT7hOyt16wI&dib_tag=se&keywords=data%2Banalyst%2Btshirt&qid=1782393646&sprefix=data%2Banalyst%2Btshirt%2Caps%2C528&sr=8-15&th=1&psc=1'
+        headers ={ 
+            'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
+            'Accept-Encoding':'gzip, deflate, br, zstd', "Accept-Language": 'en-US, en;q=0.9',
+            'Accept':'*/*'    
+                    }
+        page = requests.get(url, headers= headers) 
+        soup1 = BeautifulSoup(page.content,'html.parser')
+        soup2 = BeautifulSoup(soup1.prettify(),'html.parser')
+        
+        # soup1
+        soup2
+        
+        # print("Status Code:", page.status_code)
+        # print("Final URL:", page.url)
+        
+        title = soup2.find('span',id='productTitle').text.strip()
+        print(title)
+        
+        price = soup2.find('span',id='apex-pricetopay-accessibility-label').text.strip()[4:]
+        price =  price.replace(",","")
+        price = float(price)
+
+        today = datetime.date.today()
+        print(today)
+        
+        # header=["title", "price", "today"]
+        
+        data=[title,price,today]
+        
+        with open(r'D:\Alex data analysis\Python Projects\Amazon Web Scraper Project2.csv','a+', newline='',encoding='UTF8') as f:
+            writer = csv.writer(f)
+            # writer.writerow(header)
+            writer.writerow(data)
+
+        if(price<3000):
+            send_mail()
+  </code></pre>
+
+  <!-- <span class="image fit">
+    <img
+      src="images/csv_dataset.png"
+      alt="CSV Dataset"
+    />
+  </span> -->
+</div>
+
+<!-- Step 8 -->
+<div class="box">
+  <h3>Step 8: Automate Daily Price Monitoring</h3>
+
+  <p>
+    Automated the process by running the scraper every 24 hours to collect
+    updated pricing information.
+  </p>
+
+  <pre><code>
+while True:
+
+    check_price()
+
+    time.sleep(86400) #60*60*24
+  </code></pre>
+
+  <!-- <span class="image fit">
+    <img
+      src="images/automation_schedule.png"
+      alt="Automation Schedule"
+    />
+  </span> -->
+</div>
+
+<!-- Step 9 -->
+<div class="box">
+  <h3>Step 9: Analyze Historical Price Data</h3>
+
+  <p>
+    Loaded the collected dataset into Pandas for inspection and future
+    trend analysis.
+  </p>
+
+  <pre><code>
+
+df = pd.read_csv(
+    "AmazonWebScraperDataset.csv"
+)
+
+print(df.head())
+  </code></pre>
+
+  <span class="image fit">
+    <img
+      src="images/dailyproductdata.png"
+      alt="Pandas Analysis"
+    />
+  </span>
+</div>
+
+<!-- Step 10 -->
+<div class="box">
+  <h3>Step 10: Email Alert System</h3>
+
+  <p>
+    Implemented an automated email notification system that alerts users
+    when the product price falls below a specified target value.
+  </p>
+
+  <pre><code>
+def send_mail():
+    server = smtplib.SMTP_SSL('smtp.gmail.com',465)
+    server.ehlo()
+    #server.starttls()
+    server.ehlo()
+    server.login('nisharaocontentwriter@gmail.com','eoug ksgd vpnj pgvd')
+    
+    subject = "Price Drop Alert!"
+    body = "Nisha, This is the moment we have been waiting for. Now is your chance to pick up the shirt of your dreams.Don't mess it up! Link here:https://www.amazon.com//Be-Wild-Free-Market-Scientist/dp/B08471P8DV/"
+    msg = f"Subject: {subject}\n\n{body}"
+    
+    server. sendmail( 
+        'nisharaocontentwriter@gmail.com',
+        'nisharaocontentwriter@gmail.com',
+        msg 
+     
+    )
+
+  this will be triggered if    if(price<3000):
+          
+  </code></pre>
+
+  <!-- <span class="image fit">
+    <img
+      src="images/email_alert.png"
+      alt="Email Alert"
+    />
+  </span> -->
+</div>
+
+          <hr />
+
+       <!-- Python Concepts -->
+<h2>Key Python Concepts Used</h2>
+
+<div class="row">
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>Web Scraping</h4>
+      <p>
+        Extracted product information such as title and price directly from Amazon webpages using BeautifulSoup.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>HTTP Requests</h4>
+      <p>
+        Retrieved webpage content using the Requests library and custom browser headers.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>HTML Parsing</h4>
+      <p>
+        Parsed and navigated HTML elements to locate product titles and pricing information.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>CSV File Handling</h4>
+      <p>
+        Stored historical product pricing data in CSV files for tracking and analysis.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>Automation</h4>
+      <p>
+        Automated daily price monitoring using loops and scheduled execution.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>Email Notifications</h4>
+      <p>
+        Sent automated email alerts whenever the product price dropped below a target value.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>Pandas</h4>
+      <p>
+        Loaded and analyzed historical pricing data for future trend analysis and reporting.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>Datetime</h4>
+      <p>
+        Generated timestamps to record when product prices were collected.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-4 col-12-small">
+    <div class="box">
+      <h4>Data Cleaning</h4>
+      <p>
+        Cleaned and formatted extracted data before storing it for analysis.
+      </p>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<!-- Outcome -->
+<h2>Project Outcome</h2>
+
+<blockquote>
+Successfully developed an automated Amazon Price Tracker using Python that monitors product prices, stores historical pricing data, and sends email notifications when prices drop below a specified threshold. This project demonstrates practical applications of web scraping, automation, data collection, CSV file handling, email integration, and data analysis techniques commonly used in real-world data analytics and automation projects.
+</blockquote>
+
+<ul class="actions special">
+  <li>
+    <a href="index.html" class="button">Back to Portfolio</a>
+  </li>
+</ul>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
+```
